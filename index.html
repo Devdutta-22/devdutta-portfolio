@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Devdutta Nath — B.Tech CSE (AI/ML) student portfolio featuring credentials and engineering projects.">
+  <title>Devdutta Nath — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="portfolio-data.js"></script>
+  <script defer src="glow-cursor.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <canvas id="glow-cursor-layer" class="glow-cursor-layer" aria-hidden="true"></canvas>
+  <a href="#main-content" class="skip-link visually-hidden">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <button type="button" id="brand-home-btn" class="brand-btn" aria-label="Go to Home">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span id="header-brand-name">Devdutta</span>
+      </button>
+
+      <nav aria-label="Primary" class="primary-nav">
+        <button type="button" id="nav-home-btn" class="nav-pill" aria-current="page">
+          Home
+        </button>
+        <button type="button" id="nav-projects-btn" class="nav-pill">
+          Projects
+          <span id="nav-project-count" class="nav-count" aria-hidden="true">0</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="container main-shell">
+    <!-- HOME VIEW -->
+    <section id="home-view" class="view-section" aria-labelledby="hero-name">
+      <div class="hero-card">
+        <div class="hero-identity">
+          <div class="holo-card-wrap">
+            <div id="hero-holo-card" class="holo-card hero-holo-card">
+              <div class="holo-card-face">
+                <img
+                  id="hero-avatar"
+                  src="assets/avatar.webp"
+                  alt="Portrait of Devdutta Nath"
+                  width="240"
+                  height="300"
+                  fetchpriority="high"
+                  decoding="async"
+                >
+                <div class="hero-holo-caption" aria-hidden="true">
+                  <span class="hero-holo-tag">CSE • AI/ML</span>
+                  <span class="hero-holo-name">Devdutta Nath</span>
+                </div>
+                <div class="holo-foil" aria-hidden="true"></div>
+                <div class="holo-glare" aria-hidden="true"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-copy">
+            <p id="hero-role" class="hero-role">B.Tech CSE (AI/ML) Student • Galgotias University</p>
+            <h1 id="hero-name" class="hero-name" tabindex="-1">Devdutta Nath</h1>
+            <p id="hero-location" class="hero-location"></p>
+          </div>
+        </div>
+
+        <div class="about-block">
+          <h2 id="about-heading" class="section-label">About Me</h2>
+          <p id="about-blur-highlight" class="blur-highlight-text"></p>
+        </div>
+
+        <div class="credentials-block">
+          <h2 id="credentials-heading" class="section-label">Credentials &amp; Profiles</h2>
+          <ul id="credentials-list" class="credentials-list" role="list"></ul>
+        </div>
+      </div>
+
+      <!-- PROJECTS LAUNCHER SECTION -->
+      <div class="projects-launcher-wrap">
+        <button
+          type="button"
+          id="open-projects-btn"
+          class="projects-launcher star-border-container holo-card"
+          aria-describedby="projects-launcher-desc"
+        >
+          <span class="star-border-bottom" aria-hidden="true"></span>
+          <span class="star-border-top" aria-hidden="true"></span>
+          <span class="star-border-inner">
+            <span class="launcher-top">
+              <span class="launcher-heading-group">
+                <span class="section-label">Featured Work</span>
+                <span class="launcher-title">Projects</span>
+              </span>
+              <span class="launcher-cta">
+                View All <span id="launcher-count">0</span> Projects
+                <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14"/>
+                  <path d="m12 5 7 7-7 7"/>
+                </svg>
+              </span>
+            </span>
+
+            <span id="projects-launcher-desc" class="launcher-desc">
+              Click to browse all projects, inspect architecture details, and launch live builds.
+            </span>
+
+            <span id="launcher-preview-chips" class="launcher-previews" aria-hidden="true"></span>
+            <span class="holo-foil" aria-hidden="true"></span>
+            <span class="holo-glare" aria-hidden="true"></span>
+          </span>
+        </button>
+      </div>
+
+      <!-- RESUME SECTION -->
+      <section class="resume-section" aria-labelledby="resume-heading">
+        <div class="resume-header">
+          <div>
+            <p class="section-label">Curriculum Vitae</p>
+            <h2 id="resume-heading" class="resume-title">Resume</h2>
+            <p class="resume-hint">View or download my full resume PDF.</p>
+          </div>
+          <div class="resume-actions">
+            <a
+              class="btn-primary"
+              href="assets/Devdutta_Nath_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open PDF ↗
+            </a>
+            <a
+              class="btn-secondary"
+              href="assets/Devdutta_Nath_Resume.pdf"
+              download="Devdutta_Nath_Resume.pdf"
+            >
+              Download
+            </a>
+          </div>
+        </div>
+
+        <div class="resume-preview-frame">
+          <img
+            class="resume-preview-img"
+            src="assets/resume.png"
+            alt="Devdutta Nath's Resume"
+            width="1236"
+            height="1600"
+            loading="lazy"
+            decoding="async"
+          >
+        </div>
+      </section>
+    </section>
+
+    <!-- ALL PROJECTS VIEW -->
+    <section id="projects-view" class="view-section" aria-labelledby="projects-heading" hidden>
+      <div class="projects-header">
+        <div class="projects-header-top">
+          <button type="button" id="back-home-btn" class="back-btn">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+            Back to Home
+          </button>
+        </div>
+
+        <div class="projects-title-row">
+          <div>
+            <p class="section-label">Selected Engineering Builds</p>
+            <h1 id="projects-heading" class="projects-heading" tabindex="-1">All Projects</h1>
+          </div>
+          <div id="category-filters" class="category-filters" role="group" aria-label="Filter projects by category"></div>
+        </div>
+      </div>
+
+      <ul id="projects-grid" class="projects-grid" role="list"></ul>
+    </section>
+  </main>
+
+  <!-- PROJECT DETAIL MODAL DIALOG -->
+  <dialog id="project-dialog" closedby="any" aria-labelledby="dialog-title">
+    <div class="dialog-surface">
+      <div id="dialog-banner" class="dialog-banner">
+        <div class="dialog-meta">
+          <span id="dialog-category" class="dialog-badge">Category</span>
+          <span id="dialog-year" class="dialog-year">2026</span>
+        </div>
+        <button type="button" id="dialog-close-btn" class="dialog-close-btn" aria-label="Close project details" autofocus>
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"/>
+            <path d="m6 6 12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="dialog-body">
+        <h2 id="dialog-title" class="dialog-title">Project Title</h2>
+        <p id="dialog-tagline" class="dialog-tagline"></p>
+        <p id="dialog-description" class="dialog-description"></p>
+
+        <div class="dialog-subsection">
+          <h3 class="dialog-subtitle">Key Highlights</h3>
+          <ul id="dialog-highlights" class="dialog-highlights"></ul>
+        </div>
+
+        <div class="dialog-subsection">
+          <h3 class="dialog-subtitle">Tech Stack</h3>
+          <ul id="dialog-tech" class="tech-tags" role="list"></ul>
+        </div>
+      </div>
+
+      <div class="dialog-footer">
+        <a
+          id="dialog-project-link"
+          class="btn-primary"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>Go to Project</span>
+          <svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17 17 7"/>
+            <path d="M7 7h10v10"/>
+          </svg>
+        </a>
+
+        <a
+          id="dialog-repo-link"
+          class="btn-secondary"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>Source Code</span>
+        </a>
+
+        <button type="button" id="dialog-dismiss-btn" class="btn-ghost">
+          Close
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p id="footer-copy" class="footer-copy"></p>
+      <p class="footer-hint">Built with semantic HTML, View Transitions &amp; native Dialog</p>
+    </div>
+  </footer>
+</body>
+</html>
