@@ -1062,9 +1062,12 @@ svg {
   border-color: rgba(165, 216, 255, 0.55);
 }
 
+.project-card-trigger:has(.card-title-btn:focus-visible) {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
 .card-top-meta {
-  position: relative;
-  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1099,8 +1102,6 @@ svg {
 }
 
 .card-title {
-  position: relative;
-  z-index: 1;
   margin: 0;
   font-family: var(--font-display);
   font-size: 1.25rem;
@@ -1110,9 +1111,30 @@ svg {
   color: #ffffff;
 }
 
-.card-tagline {
-  position: relative;
+.card-title-btn {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+.card-title-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   z-index: 1;
+}
+
+.card-title-btn:focus-visible {
+  outline: none;
+}
+
+.card-tagline {
   margin: 0;
   color: var(--text-secondary);
   font-size: 0.94rem;
@@ -1124,9 +1146,8 @@ svg {
 }
 
 .card-footer-row {
-  position: relative;
-  z-index: 1;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
@@ -1149,6 +1170,37 @@ svg {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   color: var(--text-secondary);
+}
+
+.card-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-inline-start: auto;
+}
+
+.card-download-btn {
+  position: relative;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-block-size: 38px;
+  padding: 0.38rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background: rgba(56, 189, 248, 0.16);
+  border: 1px solid rgba(56, 189, 248, 0.52);
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.16s ease;
+}
+
+.card-download-btn:hover {
+  background: rgba(56, 189, 248, 0.28);
+  border-color: var(--accent);
+  color: #ffffff;
 }
 
 .card-inspect-cue {

@@ -72,7 +72,7 @@ window.PORTFOLIO_DATA = {
       id: "popcode",
       title: "PopCode",
       category: "Android & Systems",
-      year: "v1.0.0 • Android 7.0+",
+      year: "v2.2 • Android 7.0+",
       tagline:
         "Offline, developer-first Android keyboard with radial snippet wheels, context-aware DSA templates, and live variable tracking.",
       description:
@@ -93,6 +93,9 @@ window.PORTFOLIO_DATA = {
       ],
       accentHue: 215,
       projectUrl: "https://github.com/Devdutta-22",
+      downloadUrl: "assets/PopCode-latest_v2.2.apk",
+      downloadName: "PopCode-latest_v2.2.apk",
+      downloadLabel: "Download APK",
     },
     {
       id: "nutriscan",

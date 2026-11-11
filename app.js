@@ -399,14 +399,11 @@
       const li = document.createElement("li");
       li.className = "project-grid-item";
 
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "project-card-trigger holo-card";
-      btn.style.setProperty("--card-hue", String(project.accentHue ?? 245));
-      btn.setAttribute("aria-label", `${project.title} — View project details`);
-      btn.addEventListener("click", () => openProjectDialog(project));
+      const card = document.createElement("article");
+      card.className = "project-card-trigger holo-card";
+      card.style.setProperty("--card-hue", String(project.accentHue ?? 245));
 
-      const topMeta = document.createElement("span");
+      const topMeta = document.createElement("div");
       topMeta.className = "card-top-meta";
 
       const catBadge = document.createElement("span");
@@ -421,18 +418,24 @@
       yearSpan.textContent = project.year;
       topMeta.append(catBadge, yearSpan);
 
-      const title = document.createElement("span");
+      const title = document.createElement("h2");
       title.className = "card-title";
-      title.textContent = project.title;
+      const titleBtn = document.createElement("button");
+      titleBtn.type = "button";
+      titleBtn.className = "card-title-btn";
+      titleBtn.textContent = project.title;
+      titleBtn.setAttribute("aria-label", `${project.title} — View project details`);
+      titleBtn.addEventListener("click", () => openProjectDialog(project));
+      title.appendChild(titleBtn);
 
-      const tagline = document.createElement("span");
+      const tagline = document.createElement("p");
       tagline.className = "card-tagline";
       tagline.textContent = project.tagline;
 
-      const footerRow = document.createElement("span");
+      const footerRow = document.createElement("div");
       footerRow.className = "card-footer-row";
 
-      const stackPreview = document.createElement("span");
+      const stackPreview = document.createElement("div");
       stackPreview.className = "card-stack-preview";
       for (const tech of project.techStack.slice(0, 2)) {
         const tag = document.createElement("span");
@@ -441,11 +444,26 @@
         stackPreview.appendChild(tag);
       }
 
+      const actions = document.createElement("div");
+      actions.className = "card-actions";
+
+      if (project.downloadUrl) {
+        const dlLink = document.createElement("a");
+        dlLink.className = "card-download-btn";
+        dlLink.href = project.downloadUrl;
+        dlLink.setAttribute("download", project.downloadName || "");
+        dlLink.setAttribute("aria-label", `${project.downloadLabel || "Download"} ${project.title}`);
+        dlLink.innerHTML = `<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg><span>${project.downloadLabel || "Download"}</span>`;
+        actions.appendChild(dlLink);
+      }
+
       const cue = document.createElement("span");
       cue.className = "card-inspect-cue";
+      cue.setAttribute("aria-hidden", "true");
       cue.innerHTML = `Details <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>`;
+      actions.appendChild(cue);
 
-      footerRow.append(stackPreview, cue);
+      footerRow.append(stackPreview, actions);
 
       const foil = document.createElement("span");
       foil.className = "holo-foil";
@@ -455,11 +473,11 @@
       glareEl.className = "holo-glare";
       glareEl.setAttribute("aria-hidden", "true");
 
-      btn.append(topMeta, title, tagline, footerRow, foil, glareEl);
-      li.appendChild(btn);
+      card.append(topMeta, title, tagline, footerRow, foil, glareEl);
+      li.appendChild(card);
       projectsGridEl.appendChild(li);
 
-      attachHoloCardInteraction(btn, { tiltMax: 8, glare: 0.4 });
+      attachHoloCardInteraction(card, { tiltMax: 8, glare: 0.4 });
     }
   }
 
@@ -599,8 +617,21 @@
       techEl.appendChild(li);
     }
 
+    const downloadLink = document.getElementById("dialog-download-link");
+    const downloadLabel = document.getElementById("dialog-download-label");
     const projectLink = document.getElementById("dialog-project-link");
     projectLink.href = project.projectUrl || "#";
+
+    if (project.downloadUrl) {
+      downloadLink.href = project.downloadUrl;
+      downloadLink.setAttribute("download", project.downloadName || "");
+      downloadLabel.textContent = project.downloadLabel || "Download APK";
+      downloadLink.hidden = false;
+      projectLink.className = "btn-secondary";
+    } else {
+      downloadLink.hidden = true;
+      projectLink.className = "btn-primary";
+    }
 
     const repoLink = document.getElementById("dialog-repo-link");
     if (project.repoUrl && project.repoUrl !== project.projectUrl) {
