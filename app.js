@@ -708,7 +708,136 @@
     });
   }
 
+  // 6. Interactive Self-Healing Cutting Mat Background
+  function initCuttingMat() {
+    const container = document.getElementById("cutting-mat-bg");
+    const svg = document.getElementById("cutting-mat-overlay");
+    const grid = document.querySelector(".cutting-mat-grid");
+    if (!container || !svg || !grid) return;
+
+    function renderMat() {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const isMobile = w < 640;
+      const unit = isMobile ? 50 : 60;
+      const margin = isMobile ? 24 : 36;
+
+      // Synchronize CSS grid background with ruler margins
+      grid.style.backgroundPosition = `${margin}px ${margin}px`;
+      grid.style.backgroundSize = `${unit}px ${unit}px, ${unit}px ${unit}px, ${unit / 5}px ${unit / 5}px, ${unit / 5}px ${unit / 5}px`;
+
+      const cols = Math.floor((w - 2 * margin) / unit);
+      const rows = Math.floor((h - 2 * margin) / unit);
+      const gridW = cols * unit;
+      const gridH = rows * unit;
+
+      svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+      svg.setAttribute("width", `${w}`);
+      svg.setAttribute("height", `${h}`);
+
+      const elements = [];
+
+      // Main Outer Border Rectangle
+      elements.push(`<rect x="${margin}" y="${margin}" width="${gridW}" height="${gridH}" class="mat-border" />`);
+
+      // Top-Left 'inch' Label
+      elements.push(`<text x="${Math.max(6, margin / 4)}" y="${margin - 12}" class="mat-label">inch</text>`);
+
+      // Top Ruler Ticks & Column Numbers
+      for (let c = 1; c <= cols; c++) {
+        const x = margin + c * unit;
+        for (let s = 1; s <= 4; s++) {
+          const sx = x - unit + s * (unit / 5);
+          const tickH = (s === 2 || s === 3) ? (margin * 0.28) : (margin * 0.18);
+          elements.push(`<line x1="${sx}" y1="0" x2="${sx}" y2="${tickH}" class="mat-tick-sub" />`);
+        }
+        elements.push(`<line x1="${x}" y1="0" x2="${x}" y2="${margin * 0.42}" class="mat-tick-maj" />`);
+        elements.push(`<text x="${x}" y="${margin - 10}" text-anchor="middle" class="mat-number">${c}</text>`);
+      }
+
+      // Left Ruler Ticks & Row Numbers
+      for (let r = 1; r <= rows; r++) {
+        const y = margin + r * unit;
+        for (let s = 1; s <= 4; s++) {
+          const sy = y - unit + s * (unit / 5);
+          const tickW = (s === 2 || s === 3) ? (margin * 0.28) : (margin * 0.18);
+          elements.push(`<line x1="0" y1="${sy}" x2="${tickW}" y2="${sy}" class="mat-tick-sub" />`);
+        }
+        elements.push(`<line x1="0" y1="${y}" x2="${margin * 0.42}" y2="${y}" class="mat-tick-maj" />`);
+        elements.push(`<text x="${margin - 10}" y="${y + 4}" text-anchor="end" class="mat-number">${r}</text>`);
+      }
+
+      // Right Ruler Ticks & Numbers (matching reference descending scale)
+      const rightEdge = margin + gridW;
+      const rightOffset = w - rightEdge;
+      if (rightOffset >= margin - 8) {
+        for (let r = 1; r <= rows; r++) {
+          const y = margin + r * unit;
+          for (let s = 1; s <= 4; s++) {
+            const sy = y - unit + s * (unit / 5);
+            const tickW = (s === 2 || s === 3) ? (margin * 0.28) : (margin * 0.18);
+            elements.push(`<line x1="${w - tickW}" y1="${sy}" x2="${w}" y2="${sy}" class="mat-tick-sub" />`);
+          }
+          elements.push(`<line x1="${w - margin * 0.42}" y1="${y}" x2="${w}" y2="${y}" class="mat-tick-maj" />`);
+          const num = (rows - r + 1) + 10;
+          elements.push(`<text x="${rightEdge + 10}" y="${y + 4}" text-anchor="start" class="mat-number">${num}</text>`);
+        }
+      }
+
+      // Bottom Ruler Ticks & Numbers
+      const bottomEdge = margin + gridH;
+      const bottomOffset = h - bottomEdge;
+      if (bottomOffset >= margin - 8) {
+        for (let c = 1; c <= cols; c++) {
+          const x = margin + c * unit;
+          for (let s = 1; s <= 4; s++) {
+            const sx = x - unit + s * (unit / 5);
+            const tickH = (s === 2 || s === 3) ? (margin * 0.28) : (margin * 0.18);
+            elements.push(`<line x1="${sx}" y1="${h - tickH}" x2="${sx}" y2="${h}" class="mat-tick-sub" />`);
+          }
+          elements.push(`<line x1="${x}" y1="${h - margin * 0.42}" x2="${x}" y2="${h}" class="mat-tick-maj" />`);
+          elements.push(`<text x="${x}" y="${bottomEdge + margin - 10}" text-anchor="middle" class="mat-number">${c}</text>`);
+        }
+      }
+
+      // Intersection Crosshairs at Major Grid Crossings
+      for (let c = 1; c < cols; c++) {
+        const x = margin + c * unit;
+        for (let r = 1; r < rows; r++) {
+          const y = margin + r * unit;
+          elements.push(`<path d="M ${x - 3} ${y} L ${x + 3} ${y} M ${x} ${y - 3} L ${x} ${y + 3}" class="mat-crosshair" />`);
+        }
+      }
+
+      // 45° & 60° Angle Guidelines
+      if (cols >= 4 && rows >= 4) {
+        const x0 = margin;
+        const y0 = margin + Math.min(rows, cols) * unit;
+        const len = Math.min(gridW, gridH);
+        elements.push(`<line x1="${x0}" y1="${y0}" x2="${x0 + len}" y2="${y0 - len}" class="mat-angle-line" />`);
+        elements.push(`<text x="${x0 + len * 0.5 + 8}" y="${y0 - len * 0.5 - 6}" class="mat-angle-label" transform="rotate(-45 ${x0 + len * 0.5} ${y0 - len * 0.5})">45°</text>`);
+
+        const rad60 = (60 * Math.PI) / 180;
+        const len60 = Math.min(gridW * 0.7, gridH);
+        const dx60 = len60 / Math.tan(rad60);
+        elements.push(`<line x1="${x0}" y1="${y0}" x2="${x0 + dx60}" y2="${y0 - len60}" class="mat-angle-line" />`);
+        elements.push(`<text x="${x0 + dx60 * 0.5 + 8}" y="${y0 - len60 * 0.5 - 6}" class="mat-angle-label" transform="rotate(-60 ${x0 + dx60 * 0.5} ${y0 - len60 * 0.5})">60°</text>`);
+      }
+
+      svg.innerHTML = elements.join("");
+    }
+
+    renderMat();
+
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(renderMat, 120);
+    }, { passive: true });
+  }
+
   // Initialize
+  initCuttingMat();
   initGlowCursor();
   renderProfile();
   renderCategoryFilters();
