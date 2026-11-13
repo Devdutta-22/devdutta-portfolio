@@ -390,94 +390,47 @@
 
     for (const project of filtered) {
       const li = document.createElement("li");
-      li.className = "project-grid-item";
+      li.className = "desktop-folder-item";
 
-      const card = document.createElement("article");
-      card.className = "project-card-trigger holo-card";
-      card.style.setProperty("--card-hue", String(project.accentHue ?? 245));
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "desktop-folder-btn";
+      btn.setAttribute("aria-label", `Open project folder: ${project.title}`);
+      btn.dataset.projectId = project.id;
+      btn.addEventListener("click", () => openProjectDialog(project));
 
-      const topMeta = document.createElement("div");
-      topMeta.className = "card-top-meta";
+      const iconWrap = document.createElement("div");
+      iconWrap.className = "folder-icon-wrap";
+      iconWrap.innerHTML = `
+        <svg class="retro-folder-svg" viewBox="0 0 60 50" width="56" height="46" aria-hidden="true">
+          <path d="M 4 8 L 22 8 L 28 14 L 56 14 L 56 46 L 4 46 Z" fill="#f59e0b" stroke="#78350f" stroke-width="2"/>
+          <path d="M 4 18 L 56 18 L 52 46 L 8 46 Z" fill="#fbbf24" stroke="#78350f" stroke-width="2"/>
+          <line x1="12" y1="24" x2="48" y2="24" stroke="#fef3c7" stroke-width="1.5" stroke-opacity="0.8"/>
+        </svg>
+        ${project.downloadUrl ? '<span class="folder-apk-pill">APK</span>' : ''}
+      `;
 
-      const catBadge = document.createElement("span");
-      catBadge.className = "card-category";
-      const catDot = document.createElement("span");
-      catDot.className = "card-category-dot";
-      catDot.setAttribute("aria-hidden", "true");
-      catBadge.append(catDot, document.createTextNode(project.category));
+      const title = document.createElement("span");
+      title.className = "folder-title";
+      title.textContent = project.title;
 
-      const yearSpan = document.createElement("span");
-      yearSpan.className = "card-year";
-      yearSpan.textContent = project.year;
-      topMeta.append(catBadge, yearSpan);
+      const meta = document.createElement("span");
+      meta.className = "folder-category-badge";
+      meta.textContent = project.category;
 
-      const title = document.createElement("h2");
-      title.className = "card-title";
-      const titleBtn = document.createElement("button");
-      titleBtn.type = "button";
-      titleBtn.className = "card-title-btn";
-      titleBtn.textContent = project.title;
-      titleBtn.setAttribute("aria-label", `${project.title} — View project details`);
-      titleBtn.addEventListener("click", () => openProjectDialog(project));
-      title.appendChild(titleBtn);
-
-      const tagline = document.createElement("p");
-      tagline.className = "card-tagline";
-      tagline.textContent = project.tagline;
-
-      const footerRow = document.createElement("div");
-      footerRow.className = "card-footer-row";
-
-      const stackPreview = document.createElement("div");
-      stackPreview.className = "card-stack-preview";
-      for (const tech of project.techStack.slice(0, 2)) {
-        const tag = document.createElement("span");
-        tag.className = "mini-tag";
-        tag.textContent = tech;
-        stackPreview.appendChild(tag);
-      }
-
-      const actions = document.createElement("div");
-      actions.className = "card-actions";
-
-      if (project.downloadUrl) {
-        const dlLink = document.createElement("a");
-        dlLink.className = "card-download-btn";
-        dlLink.href = project.downloadUrl;
-        dlLink.setAttribute("download", project.downloadName || "");
-        dlLink.setAttribute("aria-label", `${project.downloadLabel || "Download"} ${project.title}`);
-        dlLink.innerHTML = `<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg><span>${project.downloadLabel || "Download"}</span>`;
-        actions.appendChild(dlLink);
-      }
-
-      const cue = document.createElement("span");
-      cue.className = "card-inspect-cue";
-      cue.setAttribute("aria-hidden", "true");
-      cue.innerHTML = `Details <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>`;
-      actions.appendChild(cue);
-
-      footerRow.append(stackPreview, actions);
-
-      const foil = document.createElement("span");
-      foil.className = "holo-foil";
-      foil.setAttribute("aria-hidden", "true");
-
-      const glareEl = document.createElement("span");
-      glareEl.className = "holo-glare";
-      glareEl.setAttribute("aria-hidden", "true");
-
-      card.append(topMeta, title, tagline, footerRow, foil, glareEl);
-      li.appendChild(card);
+      btn.append(iconWrap, title, meta);
+      li.appendChild(btn);
       projectsGridEl.appendChild(li);
-
-      attachHoloCardInteraction(card, { tiltMax: 8, glare: 0.4 });
     }
   }
 
-  // 3. View Switching with View Transitions API + Accessibility Focus Routing
+  // 3. View Switching with View Transitions API + Laptop 3D Open Animation
   function applyViewState(nextView) {
     activeView = nextView;
     const isProjects = nextView === "projects";
+
+    const laptopCase = document.getElementById("laptop-case");
+    const laptopScreen = document.getElementById("laptop-screen");
 
     homeView.hidden = isProjects;
     projectsView.hidden = !isProjects;
@@ -486,6 +439,29 @@
       navProjectsBtn?.setAttribute("aria-current", "page");
       navHomeBtn?.removeAttribute("aria-current");
       document.title = `Projects | ${data.profile.name}`;
+
+      if (laptopCase && !motionReduceQuery.matches) {
+        // Laptop Lid opens in 3D perspective, then screen turns on
+        laptopCase.classList.remove("laptop-opened", "laptop-closing");
+        laptopCase.classList.add("laptop-opening");
+
+        if (laptopScreen) {
+          laptopScreen.classList.remove("screen-on");
+          laptopScreen.classList.add("screen-powering");
+        }
+
+        setTimeout(() => {
+          laptopCase.classList.remove("laptop-opening");
+          laptopCase.classList.add("laptop-opened");
+          if (laptopScreen) {
+            laptopScreen.classList.remove("screen-powering");
+            laptopScreen.classList.add("screen-on");
+          }
+        }, 700);
+      } else if (laptopCase) {
+        laptopCase.classList.add("laptop-opened");
+        if (laptopScreen) laptopScreen.classList.add("screen-on");
+      }
     } else {
       navHomeBtn?.setAttribute("aria-current", "page");
       navProjectsBtn?.removeAttribute("aria-current");
@@ -587,6 +563,9 @@
 
   function openProjectDialog(project) {
     dialog.style.setProperty("--dialog-hue", String(project.accentHue ?? 245));
+    const titleBar = document.getElementById("dialog-title-bar");
+    if (titleBar) titleBar.textContent = `${project.title}.exe`;
+
     document.getElementById("dialog-category").textContent = project.category;
     document.getElementById("dialog-year").textContent = project.year;
     document.getElementById("dialog-title").textContent = project.title;
@@ -612,26 +591,31 @@
 
     const downloadLink = document.getElementById("dialog-download-link");
     const downloadLabel = document.getElementById("dialog-download-label");
-    const projectLink = document.getElementById("dialog-project-link");
-    projectLink.href = project.projectUrl || "#";
-
-    if (project.downloadUrl) {
-      downloadLink.href = project.downloadUrl;
-      downloadLink.setAttribute("download", project.downloadName || "");
-      downloadLabel.textContent = project.downloadLabel || "Download APK";
-      downloadLink.hidden = false;
-      projectLink.className = "btn-secondary";
-    } else {
-      downloadLink.hidden = true;
-      projectLink.className = "btn-primary";
+    const projectLink = document.getElementById("dialog-live-link") || document.getElementById("dialog-project-link");
+    if (projectLink) {
+      projectLink.href = project.projectUrl || project.liveUrl || "#";
     }
 
-    const repoLink = document.getElementById("dialog-repo-link");
-    if (project.repoUrl && project.repoUrl !== project.projectUrl) {
-      repoLink.href = project.repoUrl;
-      repoLink.hidden = false;
-    } else {
-      repoLink.hidden = true;
+    if (project.downloadUrl) {
+      if (downloadLink) {
+        downloadLink.href = project.downloadUrl;
+        downloadLink.setAttribute("download", project.downloadName || "");
+        if (downloadLabel) downloadLabel.textContent = project.downloadLabel || "Download APK";
+        downloadLink.hidden = false;
+      }
+    } else if (downloadLink) {
+      downloadLink.hidden = true;
+    }
+
+    const repoLink = document.getElementById("dialog-github-link") || document.getElementById("dialog-repo-link");
+    if (repoLink) {
+      const url = project.repoUrl || project.githubUrl;
+      if (url && url !== (project.projectUrl || project.liveUrl)) {
+        repoLink.href = url;
+        repoLink.hidden = false;
+      } else {
+        repoLink.hidden = true;
+      }
     }
 
     dialog.removeAttribute("data-closing");
@@ -643,7 +627,52 @@
   navProjectsBtn?.addEventListener("click", () => switchView("projects"));
   navHomeBtn?.addEventListener("click", () => switchView("home"));
   brandHomeBtn?.addEventListener("click", () => switchView("home"));
-  backHomeBtn?.addEventListener("click", () => switchView("home"));
+
+  // Smooth laptop lid close on "Back to Desk"
+  backHomeBtn?.addEventListener("click", () => {
+    const laptopCase = document.getElementById("laptop-case");
+    const laptopScreen = document.getElementById("laptop-screen");
+
+    if (laptopCase && !motionReduceQuery.matches) {
+      laptopCase.classList.remove("laptop-opened", "laptop-opening");
+      laptopCase.classList.add("laptop-closing");
+      if (laptopScreen) {
+        laptopScreen.classList.remove("screen-on");
+      }
+      setTimeout(() => {
+        switchView("home");
+        laptopCase.classList.remove("laptop-closing");
+      }, 450);
+    } else {
+      switchView("home");
+    }
+  });
+
+  // Retro Clock Ticker
+  function updateRetroClock() {
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+    const retroClock = document.getElementById("retro-clock");
+    const taskbarClock = document.getElementById("taskbar-clock");
+    if (retroClock) retroClock.textContent = timeStr;
+    if (taskbarClock) taskbarClock.textContent = timeStr;
+  }
+  updateRetroClock();
+  setInterval(updateRetroClock, 30000);
+
+  // Easter eggs: Trash icon & Start button
+  document.getElementById("retro-trash-btn")?.addEventListener("click", () => {
+    alert("Recycle Bin is empty! (0 runtime bugs detected, 100% offline Kotlin & AI builds) 🗑️✨");
+  });
+  document.getElementById("retro-start-btn")?.addEventListener("click", () => {
+    const confirmed = confirm("DevduttaOS v98\n\nDo you want to close the workstation and return to the desk?");
+    if (confirmed) {
+      backHomeBtn?.click();
+    }
+  });
+
+  dialogCloseBtn.addEventListener("click", () => closeTopLayer(dialog));
+  dialogDismissBtn.addEventListener("click", () => closeTopLayer(dialog));
 
   dialogCloseBtn.addEventListener("click", () => closeTopLayer(dialog));
   dialogDismissBtn.addEventListener("click", () => closeTopLayer(dialog));

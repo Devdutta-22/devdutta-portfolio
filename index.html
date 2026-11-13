@@ -166,78 +166,187 @@
       </section>
     </section>
 
-    <!-- ALL PROJECTS VIEW -->
+    <!-- ALL PROJECTS VIEW (RETRO LAPTOP ON CUTTING BOARD) -->
     <section id="projects-view" class="view-section" aria-labelledby="projects-heading" hidden>
-      <div class="projects-header">
-        <div class="projects-header-top">
-          <button type="button" id="back-home-btn" class="back-btn">
-            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m15 18-6-6 6-6"/>
-            </svg>
-            Back to Home
-          </button>
-        </div>
-
-        <div class="projects-title-row">
-          <div>
-            <p class="section-label">Selected Engineering Builds</p>
-            <h1 id="projects-heading" class="projects-heading" tabindex="-1">All Projects</h1>
-          </div>
-          <div id="category-filters" class="category-filters" role="group" aria-label="Filter projects by category"></div>
-        </div>
+      <div class="laptop-desk-controls">
+        <button type="button" id="back-home-btn" class="back-btn">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+          Close Laptop &amp; Back to Desk
+        </button>
+        <span class="laptop-desk-status">💻 DevduttaOS Workstation v98 • Online</span>
       </div>
 
-      <ul id="projects-grid" class="projects-grid" role="list"></ul>
+      <div class="laptop-case" id="laptop-case">
+        <!-- Display Lid (opens in 3D perspective) -->
+        <div class="laptop-lid" id="laptop-lid">
+          <div class="laptop-bezel">
+            <!-- Camera & mic dots at top bezel -->
+            <div class="laptop-camera-notch" aria-hidden="true">
+              <span class="camera-lens"></span>
+              <span class="camera-led"></span>
+            </div>
+
+            <!-- Laptop Display Screen -->
+            <div class="laptop-screen" id="laptop-screen">
+              <!-- CRT scanline overlay -->
+              <div class="crt-scanlines" aria-hidden="true"></div>
+
+              <!-- Retro Desktop Environment -->
+              <div class="retro-desktop">
+                <!-- Retro Desktop Top Menu Bar -->
+                <div class="retro-menubar">
+                  <div class="menubar-left">
+                    <span class="os-brand"><span class="os-logo">💾</span> <strong>DevduttaOS</strong></span>
+                    <span class="menu-label">File</span>
+                    <span class="menu-label">View</span>
+                    <span class="menu-label">Special</span>
+                  </div>
+                  <div class="menubar-center">
+                    <div id="category-filters" class="retro-filter-bar" role="group" aria-label="Filter project folders"></div>
+                  </div>
+                  <div class="menubar-right">
+                    <span class="sys-stat">RAM: 64MB</span>
+                    <span id="retro-clock" class="sys-clock">12:00 AM</span>
+                  </div>
+                </div>
+
+                <!-- Desktop Wallpaper Workspace with Folder Icons -->
+                <div class="desktop-workspace">
+                  <h1 id="projects-heading" class="visually-hidden">Projects Desktop</h1>
+
+                  <!-- Desktop Grid of Project Folders -->
+                  <ul id="projects-grid" class="desktop-folder-grid" role="list"></ul>
+
+                  <!-- Extra Authentic Retro Desktop Icons -->
+                  <div class="desktop-side-icons" aria-label="Desktop items">
+                    <a class="desktop-shortcut" href="assets/Devdutta_Nath_Resume.pdf" target="_blank" download="Devdutta_Nath_Resume.pdf" title="Download Resume">
+                      <div class="shortcut-icon doc-shortcut">
+                        <span class="shortcut-emoji">📄</span>
+                      </div>
+                      <span class="shortcut-label">Resume.pdf</span>
+                    </a>
+                    <div class="desktop-shortcut trash-shortcut" id="retro-trash-btn" title="Recycle Bin">
+                      <div class="shortcut-icon trash-shortcut-icon">
+                        <span class="shortcut-emoji">🗑️</span>
+                      </div>
+                      <span class="shortcut-label">Trash</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Retro Bottom Taskbar -->
+                <div class="retro-taskbar">
+                  <button type="button" id="retro-start-btn" class="retro-start-btn">
+                    <span class="start-flag">🪟</span>
+                    <span class="start-title">Start</span>
+                  </button>
+                  <div class="taskbar-open-windows">
+                    <span class="taskbar-tab active">
+                      <span class="tab-icon">📁</span>
+                      <span class="tab-text">Projects (C:)</span>
+                    </span>
+                  </div>
+                  <div class="taskbar-tray">
+                    <span class="tray-pill" title="100% Offline Ready">⚡ Offline</span>
+                    <span class="tray-clock" id="taskbar-clock">12:00 AM</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Laptop Chassis Base / Keyboard deck (at the bottom) -->
+        <div class="laptop-chassis-base">
+          <div class="laptop-hinge"></div>
+          <div class="laptop-lower-deck">
+            <div class="laptop-trackpad-notch"></div>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
-  <!-- PROJECT DETAIL MODAL DIALOG -->
+  <!-- PROJECT DETAIL MODAL DIALOG (RETRO OS WINDOW) -->
   <dialog id="project-dialog" closedby="any" aria-labelledby="dialog-title">
-    <div class="dialog-surface">
-      <div id="dialog-banner" class="dialog-banner">
-        <div class="dialog-meta">
-          <span id="dialog-category" class="dialog-badge">Category</span>
-          <span id="dialog-year" class="dialog-year">2026</span>
+    <div class="dialog-surface retro-window-surface">
+      <div id="dialog-banner" class="dialog-banner retro-window-titlebar">
+        <div class="dialog-meta retro-title-meta">
+          <span class="retro-window-icon">📁</span>
+          <span id="dialog-title-bar" class="retro-window-title-text">Project.exe</span>
+          <span id="dialog-category" class="dialog-badge retro-badge">Category</span>
+          <span id="dialog-year" class="dialog-year retro-year">2026</span>
         </div>
-        <button type="button" id="dialog-close-btn" class="dialog-close-btn" aria-label="Close project details" autofocus>
-          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 6 6 18"/>
-            <path d="m6 6 12 12"/>
-          </svg>
-        </button>
-      </div>
-
-      <div class="dialog-body">
-        <h2 id="dialog-title" class="dialog-title">Project Title</h2>
-        <p id="dialog-tagline" class="dialog-tagline"></p>
-        <p id="dialog-description" class="dialog-description"></p>
-
-        <div class="dialog-subsection">
-          <h3 class="dialog-subtitle">Key Highlights</h3>
-          <ul id="dialog-highlights" class="dialog-highlights"></ul>
-        </div>
-
-        <div class="dialog-subsection">
-          <h3 class="dialog-subtitle">Tech Stack</h3>
-          <ul id="dialog-tech" class="tech-tags" role="list"></ul>
+        <div class="retro-window-controls">
+          <button type="button" class="retro-win-btn win-min" aria-label="Minimize" tabindex="-1">_</button>
+          <button type="button" class="retro-win-btn win-max" aria-label="Maximize" tabindex="-1">□</button>
+          <button type="button" id="dialog-close-btn" class="dialog-close-btn retro-win-btn win-close" aria-label="Close project details" autofocus>✕</button>
         </div>
       </div>
 
-      <div class="dialog-footer">
+      <!-- Retro Window Menu Line -->
+      <div class="retro-window-menubar">
+        <span>File</span>
+        <span>Edit</span>
+        <span>Run</span>
+        <span>Help</span>
+      </div>
+
+      <div class="dialog-body retro-window-body">
+        <h2 id="dialog-title" class="dialog-title retro-doc-title">Project Title</h2>
+        <p id="dialog-tagline" class="dialog-tagline retro-doc-tagline"></p>
+        <p id="dialog-description" class="dialog-description retro-doc-desc"></p>
+
+        <div class="dialog-subsection retro-doc-section">
+          <h3 class="dialog-subtitle retro-doc-subtitle">Key Highlights</h3>
+          <ul id="dialog-highlights" class="dialog-highlights retro-highlights"></ul>
+        </div>
+
+        <div class="dialog-subsection retro-doc-section">
+          <h3 class="dialog-subtitle retro-doc-subtitle">Tech Stack &amp; Specifications</h3>
+          <ul id="dialog-tech" class="tech-tags retro-tech-tags" role="list"></ul>
+        </div>
+      </div>
+
+      <div class="dialog-footer retro-window-footer">
         <a
           id="dialog-download-link"
-          class="btn-primary"
+          class="btn-primary retro-btn retro-btn-highlight"
           href="#"
           download
           hidden
         >
-          <svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
             <polyline points="7 10 12 15 17 10"/>
             <line x1="12" x2="12" y1="15" y2="3"/>
           </svg>
           <span id="dialog-download-label">Download APK</span>
         </a>
+        <a
+          id="dialog-live-link"
+          class="btn-primary retro-btn"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>Launch Build ↗</span>
+        </a>
+        <a
+          id="dialog-github-link"
+          class="btn-secondary retro-btn"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>GitHub Code</span>
+        </a>
+        <button type="button" id="dialog-dismiss-btn" class="btn-ghost retro-btn">Close</button>
+      </div>
+    </div>
+  </dialog>
 
         <a
           id="dialog-project-link"

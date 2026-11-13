@@ -1157,11 +1157,27 @@ svg {
   border-radius: inherit;
 }
 
-/* All Projects View (Boxless) */
-.projects-header {
-  display: grid;
-  gap: 1.15rem;
-  margin-block-end: 2rem;
+/* ==========================================================================
+   Retro Laptop Workstation & OS Desktop (Projects View)
+   ========================================================================== */
+.laptop-desk-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-block-end: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.laptop-desk-status {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--mat-text);
+  background: rgba(0, 0, 0, 0.45);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(205, 245, 225, 0.2);
 }
 
 .back-btn {
@@ -1188,261 +1204,510 @@ svg {
   color: #0f172a;
 }
 
-.projects-title-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.projects-heading {
-  margin: 0.2rem 0 0;
-  font-family: var(--font-display);
-  font-size: clamp(1.85rem, 4vw, 2.5rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-}
-
-.category-filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 0.75rem;
-}
-
-.filter-pill {
-  min-block-size: 40px;
-  padding: 0.4rem 0.95rem;
-  border: 1px solid rgba(205, 245, 225, 0.22);
-  border-radius: 6px;
-  background: rgba(6, 20, 14, 0.6);
-  color: var(--text-secondary);
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.18s ease;
-}
-
-.filter-pill:hover {
-  color: #ffffff;
-  border-color: rgba(205, 245, 225, 0.5);
-}
-
-.filter-pill[aria-pressed="true"] {
-  background: rgba(56, 189, 248, 0.22);
-  border-color: var(--accent);
-  color: var(--accent);
-  box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
-}
-
-/* Projects Grid + Blueprint Spec Sheet Cards */
-.projects-grid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
-  gap: 1.5rem;
-}
-
-.project-grid-item {
-  display: grid;
-  grid-row: span 4;
-  grid-template-rows: auto auto 1fr auto;
-  grid-template-rows: subgrid;
-  perspective: 1000px;
-}
-
-.project-card-trigger {
-  grid-row: 1 / -1;
+/* Laptop Case & 3D Perspective Hinges */
+.laptop-case {
   position: relative;
-  display: grid;
-  /* Same-cascade fallback before subgrid */
-  grid-template-rows: auto auto 1fr auto;
-  grid-template-rows: subgrid;
-  gap: 0.85rem;
-  text-align: start;
-  inline-size: 100%;
-  padding: 1.45rem;
-  border-radius: 14px;
-  overflow: clip;
-  border: 1px solid rgba(56, 189, 248, 0.32);
-  background-color: #071722;
-  background-image:
-    linear-gradient(to right, rgba(56, 189, 248, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(56, 189, 248, 0.06) 1px, transparent 1px);
-  background-size: 18px 18px;
+  inline-size: min(100%, 960px);
+  margin-inline: auto;
+  perspective: 1400px;
+}
+
+.laptop-lid {
+  position: relative;
+  transform-origin: bottom center;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease;
+  will-change: transform, opacity;
+}
+
+/* 3D Open & Close Animations */
+.laptop-case.laptop-opening .laptop-lid {
+  animation: laptop-lid-open 0.72s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.laptop-case.laptop-opened .laptop-lid {
+  transform: perspective(1400px) rotateX(0deg);
+  opacity: 1;
+}
+
+.laptop-case.laptop-closing .laptop-lid {
+  animation: laptop-lid-close 0.42s ease-in forwards;
+}
+
+@keyframes laptop-lid-open {
+  0% {
+    transform: perspective(1400px) rotateX(-75deg);
+    opacity: 0.15;
+  }
+  75% {
+    transform: perspective(1400px) rotateX(3deg);
+    opacity: 1;
+  }
+  100% {
+    transform: perspective(1400px) rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes laptop-lid-close {
+  0% {
+    transform: perspective(1400px) rotateX(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: perspective(1400px) rotateX(-75deg);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .laptop-lid,
+  .laptop-case.laptop-opening .laptop-lid,
+  .laptop-case.laptop-closing .laptop-lid {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Laptop Display Bezel */
+.laptop-bezel {
+  position: relative;
+  background: #14171d;
+  border: 2.5px solid #282e3a;
+  border-radius: 16px 16px 4px 4px;
+  padding: 18px 16px 18px;
   box-shadow:
-    0 14px 34px -12px rgba(0, 0, 0, 0.7),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  color: var(--text-primary);
-  font-family: inherit;
-  cursor: pointer;
-  transition: border-color 0.2s ease, transform 0.18s ease-out, box-shadow 0.2s ease;
+    0 24px 64px -12px rgba(0, 0, 0, 0.9),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
-.project-card-trigger:hover {
-  border-color: rgba(56, 189, 248, 0.75);
-  transform: translateY(-4px);
-  box-shadow:
-    0 20px 42px -10px rgba(0, 0, 0, 0.82),
-    0 0 18px rgba(56, 189, 248, 0.16);
-}
-
-.project-card-trigger:has(.card-title-btn:focus-visible) {
-  outline: 3px solid var(--accent);
-  outline-offset: 3px;
-}
-
-.card-top-meta {
+.laptop-camera-notch {
+  position: absolute;
+  inset-block-start: 6px;
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
+  gap: 7px;
+  pointer-events: none;
 }
 
-.card-category {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.25rem 0.65rem;
-  border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  font-weight: 500;
-  color: var(--text-secondary);
-}
-
-.card-category-dot {
-  inline-size: 0.45rem;
-  block-size: 0.45rem;
+.camera-lens {
+  inline-size: 6px;
+  block-size: 6px;
   border-radius: 50%;
-  background: hsl(var(--card-hue, 245) 78% 58%);
+  background: #000000;
+  border: 1px solid #3b4252;
 }
 
-.card-year {
-  font-family: var(--font-mono);
-  font-size: 0.76rem;
-  color: var(--text-muted);
+.camera-led {
+  inline-size: 3.5px;
+  block-size: 3.5px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 5px #22c55e;
 }
 
-.card-title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.25;
-  color: #ffffff;
+/* Laptop Display Screen & CRT Glow */
+.laptop-screen {
+  position: relative;
+  border-radius: 4px;
+  overflow: clip;
+  background: #000000;
+  min-block-size: clamp(480px, 62vw, 600px);
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
 }
 
-.card-title-btn {
-  appearance: none;
-  background: none;
-  border: 0;
-  padding: 0;
-  margin: 0;
-  font: inherit;
-  color: inherit;
-  text-align: inherit;
-  cursor: pointer;
+.laptop-screen.screen-powering {
+  animation: crt-power-flash 0.65s ease-out forwards;
 }
 
-.card-title-btn::after {
-  content: "";
+.laptop-screen.screen-on {
+  background: #008080;
+}
+
+@keyframes crt-power-flash {
+  0% {
+    filter: brightness(0);
+    background: #000000;
+  }
+  25% {
+    filter: brightness(3) contrast(2);
+    background: #1bb2b2;
+  }
+  60% {
+    filter: brightness(1.2);
+    background: #008080;
+  }
+  100% {
+    filter: brightness(1);
+    background: #008080;
+  }
+}
+
+.crt-scanlines {
   position: absolute;
   inset: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%);
+  background-size: 100% 4px;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0.35;
+}
+
+/* Retro Desktop Environment */
+.retro-desktop {
+  position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  min-block-size: inherit;
+  background-color: #008080; /* Classic Nostalgic Teal */
+  background-image: radial-gradient(circle at 50% 25%, rgba(0, 168, 168, 0.35), transparent 70%);
+  color: #000000;
+  font-family: var(--font-mono);
+  user-select: none;
 }
 
-.card-title-btn:focus-visible {
-  outline: none;
-}
-
-.card-tagline {
-  margin: 0;
-  color: var(--text-secondary);
-  font-size: 0.94rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  line-clamp: 3;
-  overflow: clip;
-}
-
-.card-footer-row {
+/* Top Retro Menu Bar */
+.retro-menubar {
+  background: #c0c0c0;
+  border-block-end: 2px solid #ffffff;
+  box-shadow: 0 1px 0 #808080;
+  padding: 4px 10px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
-  padding-block-start: 0.7rem;
-  border-block-start: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 0.6rem;
+  font-size: 0.78rem;
+  z-index: 5;
 }
 
-.card-stack-preview {
+.menubar-left {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 0.5rem;
-  min-inline-size: 0;
-}
-
-.mini-tag {
-  padding: 0.18rem 0.52rem;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--text-secondary);
-}
-
-.card-actions {
-  display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-inline-start: auto;
+  gap: 0.8rem;
 }
 
-.card-download-btn {
-  position: relative;
-  z-index: 4;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  min-block-size: 38px;
-  padding: 0.38rem 0.85rem;
-  border-radius: var(--radius-pill);
-  background: rgba(56, 189, 248, 0.16);
-  border: 1px solid rgba(56, 189, 248, 0.52);
-  color: var(--accent);
-  font-size: 0.82rem;
+.os-brand {
   font-weight: 700;
-  text-decoration: none;
-  transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.16s ease;
-}
-
-.card-download-btn:hover {
-  background: rgba(56, 189, 248, 0.28);
-  border-color: var(--accent);
-  color: #ffffff;
-}
-
-.card-inspect-cue {
-  flex: 0 0 auto;
+  color: #000080;
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--accent);
 }
 
-/* Native Project Detail Modal Dialog */
+.menu-label {
+  color: #1e293b;
+  cursor: default;
+}
+
+.retro-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.retro-filter-bar .filter-pill {
+  min-block-size: 26px;
+  padding: 2px 8px;
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  border-radius: 0;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #000000;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.retro-filter-bar .filter-pill:hover {
+  background: #d4d0c8;
+}
+
+.retro-filter-bar .filter-pill[aria-pressed="true"] {
+  background: #000080;
+  color: #ffffff;
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+.menubar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 0.76rem;
+}
+
+.sys-stat {
+  color: #334155;
+}
+
+.sys-clock {
+  font-weight: 700;
+  color: #000080;
+}
+
+/* Desktop Workspace with Folder Icons */
+.desktop-workspace {
+  flex: 1 1 auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 1.75rem 2rem;
+  position: relative;
+  overflow-y: auto;
+  min-block-size: 380px;
+}
+
+.desktop-folder-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 1.75rem 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.desktop-folder-item {
+  display: flex;
+}
+
+.desktop-folder-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  inline-size: 112px;
+  background: transparent;
+  border: 1px dotted transparent;
+  padding: 8px 6px;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 2px;
+  color: #ffffff;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.desktop-folder-btn:hover,
+.desktop-folder-btn:focus-visible {
+  background: rgba(0, 0, 128, 0.65);
+  border-color: #ffffff;
+  outline: none;
+}
+
+.folder-icon-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.retro-folder-svg {
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.4));
+}
+
+.folder-apk-pill {
+  position: absolute;
+  inset-block-end: 2px;
+  inset-inline-end: -6px;
+  background: #22c55e;
+  color: #000000;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 3px;
+  border: 1px solid #000000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+
+.folder-title {
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 1px 1px 2px #000000;
+  line-height: 1.25;
+  word-break: break-word;
+}
+
+.desktop-folder-btn:hover .folder-title,
+.desktop-folder-btn:focus-visible .folder-title {
+  background: #000080;
+  padding-inline: 4px;
+}
+
+.folder-category-badge {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: #e2e8f0;
+  background: rgba(0, 0, 0, 0.55);
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+/* Retro Desktop Extra Shortcuts */
+.desktop-side-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  margin-inline-start: auto;
+}
+
+.desktop-shortcut {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  inline-size: 88px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #ffffff;
+  padding: 6px;
+  border: 1px dotted transparent;
+  border-radius: 2px;
+  text-align: center;
+  transition: background-color 0.15s ease;
+}
+
+.desktop-shortcut:hover {
+  background: rgba(0, 0, 128, 0.65);
+  border-color: #ffffff;
+}
+
+.shortcut-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.45));
+}
+
+.shortcut-label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 1px 1px 2px #000000;
+}
+
+/* Retro Bottom Taskbar */
+.retro-taskbar {
+  background: #c0c0c0;
+  border-block-start: 2px solid #ffffff;
+  box-shadow: inset 0 1px 0 #dfdfdf, 0 -1px 0 #808080;
+  padding: 3px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  font-size: 0.8rem;
+  z-index: 5;
+}
+
+.retro-start-btn {
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  padding: 3px 9px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  color: #000000;
+}
+
+.retro-start-btn:active {
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+.taskbar-open-windows {
+  flex: 1 1 auto;
+  display: flex;
+  gap: 4px;
+}
+
+.taskbar-tab {
+  background: #d4d0c8;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  padding: 3px 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: #000000;
+}
+
+.taskbar-tray {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tray-pill {
+  font-size: 0.72rem;
+  color: #166534;
+  background: #bbf7d0;
+  padding: 1px 6px;
+  border: 1px solid #15803d;
+  border-radius: 2px;
+}
+
+.tray-clock {
+  background: #c0c0c0;
+  border: 2px inset #ffffff;
+  padding: 2px 8px;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #000000;
+}
+
+/* Laptop Base Chassis & Hinge (resting on cutting board) */
+.laptop-chassis-base {
+  position: relative;
+  z-index: 2;
+}
+
+.laptop-hinge {
+  block-size: 8px;
+  background: #0d1015;
+  margin-inline: 46px;
+  border-radius: 0 0 4px 4px;
+  border: 1px solid #1f2530;
+  border-block-start: none;
+}
+
+.laptop-lower-deck {
+  block-size: 16px;
+  background: linear-gradient(to bottom, #1e222a 0%, #101318 100%);
+  border-radius: 0 0 18px 18px;
+  border: 1px solid #2a313d;
+  border-block-start: none;
+  box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.85);
+  position: relative;
+}
+
+.laptop-trackpad-notch {
+  inline-size: 80px;
+  block-size: 4px;
+  background: #0d1015;
+  margin-inline: auto;
+  border-radius: 0 0 3px 3px;
+}
+
+/* ==========================================================================
+   Project Detail Modal Dialog (Retro OS Window Style)
+   ========================================================================== */
 dialog:modal {
   overscroll-behavior: contain;
 }
@@ -1450,10 +1715,10 @@ dialog:modal {
 dialog::backdrop {
   overflow: hidden;
   overscroll-behavior: contain;
-  background-color: rgba(15, 23, 42, 0);
-  backdrop-filter: blur(0px);
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(3px);
   transition-property: background-color, backdrop-filter, display, overlay;
-  transition-duration: 0.25s;
+  transition-duration: 0.22s;
   transition-timing-function: ease-out;
   transition-behavior: allow-discrete;
 }
@@ -1461,24 +1726,22 @@ dialog::backdrop {
 #project-dialog {
   margin: auto;
   padding: 0;
-  inline-size: min(calc(100% - 2rem), 40rem);
-  max-block-size: min(88dvb, 46rem);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-lg);
-  background: var(--surface);
-  color: var(--text-primary);
-  box-shadow: var(--shadow-modal);
+  inline-size: min(calc(100% - 2rem), 42rem);
+  max-block-size: min(88dvb, 48rem);
+  border: 3px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  border-radius: 0;
+  background: #c0c0c0;
+  color: #000000;
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.85),
+    inset 1px 1px #dfdfdf,
+    inset -1px -1px #0a0a0a;
   opacity: 0;
   transition-property: opacity, transform, display, overlay;
-  transition-duration: 0.25s;
+  transition-duration: 0.22s;
   transition-timing-function: ease-out;
   transition-behavior: allow-discrete;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  #project-dialog {
-    transform: translateY(10px) scale(0.97);
-  }
 }
 
 #project-dialog[open] {
@@ -1490,174 +1753,228 @@ dialog::backdrop {
 
   @starting-style {
     opacity: 0;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    transform: translateY(0) scale(1);
-
-    @starting-style {
-      transform: translateY(10px) scale(0.97);
-    }
-  }
-
-  &::backdrop {
-    background-color: rgba(10, 14, 23, 0.62);
-    backdrop-filter: blur(4px);
-
-    @starting-style {
-      background-color: rgba(10, 14, 23, 0);
-      backdrop-filter: blur(0px);
-    }
+    transform: scale(0.96);
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  #project-dialog,
-  dialog::backdrop {
-    transition-duration: 0.1s;
-  }
-}
-
-.dialog-surface {
+.retro-window-surface {
   display: grid;
-  grid-template-rows: auto 1fr auto;
-  max-block-size: min(88dvb, 46rem);
+  grid-template-rows: auto auto 1fr auto;
+  padding: 3px;
+  background: #c0c0c0;
+  max-block-size: min(88dvb, 48rem);
 }
 
-.dialog-banner {
+.retro-window-titlebar {
+  background: linear-gradient(90deg, #000080 0%, #1084d0 100%);
+  color: #ffffff;
+  padding: 4px 6px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 1.15rem 1.4rem;
-  border-block-end: 1px solid var(--border);
-  background: var(--surface);
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
 }
 
-.dialog-meta {
+.retro-title-meta {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.45rem;
+  min-inline-size: 0;
 }
 
-.dialog-badge {
-  padding: 0.25rem 0.7rem;
-  border-radius: var(--radius-pill);
+.retro-window-icon {
+  font-size: 1rem;
+}
+
+.retro-window-title-text {
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.retro-badge {
+  font-size: 0.65rem;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+
+.retro-year {
+  font-size: 0.68rem;
+  color: #bfdbfe;
+}
+
+.retro-window-controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.retro-win-btn {
+  inline-size: 20px;
+  block-size: 18px;
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  font-family: monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #000000;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  line-height: 1;
+}
+
+.retro-win-btn:active {
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+.win-close {
+  color: #991b1b;
+}
+
+.retro-window-menubar {
+  background: #c0c0c0;
+  border-block-end: 1px solid #808080;
+  padding: 2px 8px;
+  display: flex;
+  gap: 12px;
   font-family: var(--font-mono);
   font-size: 0.76rem;
-  font-weight: 600;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--text-primary);
+  color: #000000;
 }
 
-.dialog-year {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-}
-
-.dialog-close-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-inline-size: 40px;
-  min-block-size: 40px;
-  border-radius: 50%;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text-primary);
-  cursor: pointer;
-  transition: background-color 0.16s ease, border-color 0.16s ease;
-}
-
-.dialog-close-btn:hover {
-  background: var(--surface-elevated);
-  border-color: var(--border-strong);
-}
-
-.dialog-body {
+.retro-window-body {
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 1.4rem 1.5rem;
+  background: #ffffff;
+  color: #1e293b;
+  border: 2px inset #ffffff;
+  padding: 1.4rem;
   display: grid;
   gap: 1.1rem;
+  margin-block: 2px;
 }
 
-.dialog-title {
+.retro-doc-title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(1.35rem, 3vw, 1.7rem);
+  font-size: clamp(1.4rem, 3.2vw, 1.8rem);
   font-weight: 800;
-  letter-spacing: -0.025em;
-  line-height: 1.2;
+  color: #0f172a;
 }
 
-.dialog-tagline {
+.retro-doc-tagline {
   margin: -0.45rem 0 0;
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--accent);
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #0284c7;
 }
 
-.dialog-description {
+.retro-doc-desc {
   margin: 0;
-  color: var(--text-secondary);
-  font-size: 0.96rem;
+  font-size: 0.94rem;
+  line-height: 1.65;
+  color: #334155;
 }
 
-.dialog-subsection {
+.retro-doc-section {
   display: grid;
-  gap: 0.55rem;
+  gap: 0.45rem;
 }
 
-.dialog-subtitle {
+.retro-doc-subtitle {
   margin: 0;
   font-family: var(--font-mono);
   font-size: 0.76rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--text-muted);
+  color: #64748b;
 }
 
-.dialog-highlights {
+.retro-highlights {
   margin: 0;
-  padding-inline-start: 1.2rem;
+  padding-inline-start: 1.25rem;
   display: grid;
   gap: 0.45rem;
-  color: var(--text-secondary);
-  font-size: 0.93rem;
+  color: #334155;
+  font-size: 0.92rem;
 }
 
-.tech-tags {
+.retro-tech-tags {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  flex-wrap: balance;
   gap: 0.45rem;
 }
 
-.tech-tag {
-  padding: 0.3rem 0.72rem;
-  border-radius: 8px;
-  background: var(--surface-elevated);
-  border: 1px solid var(--border);
+.retro-tech-tags .tech-tag {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
   font-family: var(--font-mono);
-  font-size: 0.78rem;
-  color: var(--text-primary);
+  font-size: 0.76rem;
+  padding: 2px 8px;
+  border-radius: 3px;
 }
 
-.dialog-footer {
+.retro-window-footer {
+  background: #c0c0c0;
+  border-block-start: 1px solid #ffffff;
+  padding: 8px 10px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.7rem;
-  padding: 1.05rem 1.5rem;
-  border-block-start: 1px solid var(--border);
-  background: var(--surface);
+  gap: 0.65rem;
+}
+
+.retro-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-block-size: 36px;
+  padding: 0.45rem 1.1rem;
+  background: #c0c0c0;
+  color: #000000;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 0;
+  transition: background-color 0.12s ease;
+}
+
+.retro-btn:hover {
+  background: #d8d8d8;
+}
+
+.retro-btn:active {
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+.retro-btn-highlight {
+  background: #fef08a;
+  border-color: #ffffff #854d0e #854d0e #ffffff;
+  color: #854d0e;
+  font-weight: 800;
+}
+
+.retro-btn-highlight:hover {
+  background: #fde047;
 }
 
 .btn-primary,
