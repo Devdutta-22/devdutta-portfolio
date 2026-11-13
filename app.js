@@ -198,14 +198,16 @@
   function renderProfile() {
     const { profile, credentials, projects } = data;
 
-    document.getElementById("header-brand-name").textContent = profile.name;
+    const brandName = document.getElementById("header-brand-name");
+    if (brandName) brandName.textContent = profile.name;
+
     renderShuffleName(document.getElementById("hero-name"), profile.name);
     document.getElementById("hero-role").textContent = profile.role;
     document.getElementById("hero-location").textContent = profile.location;
     document.getElementById("footer-copy").textContent =
       `© ${new Date().getFullYear()} ${profile.name}`;
 
-    const heroCardName = document.querySelector(".hero-holo-name");
+    const heroCardName = document.querySelector(".hero-holo-name, .polaroid-caption-name");
     if (heroCardName) heroCardName.textContent = profile.name;
 
     renderAboutBlurHighlight(profile.aboutSegments || []);
@@ -214,17 +216,21 @@
     avatarImg.src = profile.avatar;
     avatarImg.alt = profile.avatarAlt || `Portrait of ${profile.name}`;
 
-    attachHoloCardInteraction(document.getElementById("hero-holo-card"), {
-      tiltMax: 14,
-      glare: 0.52,
-    });
+    const polaroidEl = document.getElementById("hero-polaroid") || document.getElementById("hero-holo-card");
+    if (polaroidEl) {
+      attachHoloCardInteraction(polaroidEl, {
+        tiltMax: 10,
+        glare: 0.38,
+      });
+    }
 
     attachHoloCardInteraction(openProjectsBtn, {
       tiltMax: 5,
       glare: 0.35,
     });
 
-    document.getElementById("nav-project-count").textContent = String(projects.length);
+    const navCount = document.getElementById("nav-project-count");
+    if (navCount) navCount.textContent = String(projects.length);
     document.getElementById("launcher-count").textContent = String(projects.length);
 
     // Credentials list as Taped Sticky Notes
@@ -477,12 +483,12 @@
     projectsView.hidden = !isProjects;
 
     if (isProjects) {
-      navProjectsBtn.setAttribute("aria-current", "page");
-      navHomeBtn.removeAttribute("aria-current");
+      navProjectsBtn?.setAttribute("aria-current", "page");
+      navHomeBtn?.removeAttribute("aria-current");
       document.title = `Projects | ${data.profile.name}`;
     } else {
-      navHomeBtn.setAttribute("aria-current", "page");
-      navProjectsBtn.removeAttribute("aria-current");
+      navHomeBtn?.setAttribute("aria-current", "page");
+      navProjectsBtn?.removeAttribute("aria-current");
       document.title = `${data.profile.name} — Portfolio`;
     }
   }
@@ -633,11 +639,11 @@
   }
 
   // Event wiring
-  openProjectsBtn.addEventListener("click", () => switchView("projects"));
-  navProjectsBtn.addEventListener("click", () => switchView("projects"));
-  navHomeBtn.addEventListener("click", () => switchView("home"));
-  brandHomeBtn.addEventListener("click", () => switchView("home"));
-  backHomeBtn.addEventListener("click", () => switchView("home"));
+  openProjectsBtn?.addEventListener("click", () => switchView("projects"));
+  navProjectsBtn?.addEventListener("click", () => switchView("projects"));
+  navHomeBtn?.addEventListener("click", () => switchView("home"));
+  brandHomeBtn?.addEventListener("click", () => switchView("home"));
+  backHomeBtn?.addEventListener("click", () => switchView("home"));
 
   dialogCloseBtn.addEventListener("click", () => closeTopLayer(dialog));
   dialogDismissBtn.addEventListener("click", () => closeTopLayer(dialog));

@@ -22,48 +22,30 @@
   </div>
   <a href="#main-content" class="skip-link visually-hidden">Skip to main content</a>
 
-  <header class="site-header">
-    <div class="container header-inner">
-      <button type="button" id="brand-home-btn" class="brand-btn" aria-label="Go to Home">
-        <span class="brand-dot" aria-hidden="true"></span>
-        <span id="header-brand-name">Devdutta</span>
-      </button>
-
-      <nav aria-label="Primary" class="primary-nav">
-        <button type="button" id="nav-home-btn" class="nav-pill" aria-current="page">
-          Home
-        </button>
-        <button type="button" id="nav-projects-btn" class="nav-pill">
-          Projects
-          <span id="nav-project-count" class="nav-count" aria-hidden="true">0</span>
-        </button>
-      </nav>
-    </div>
-  </header>
-
   <main id="main-content" class="container main-shell">
     <!-- HOME VIEW -->
     <section id="home-view" class="view-section" aria-labelledby="hero-name">
       <div class="hero-card">
         <div class="hero-identity">
-          <div class="holo-card-wrap">
-            <div id="hero-holo-card" class="holo-card hero-holo-card">
-              <div class="holo-card-face">
+          <div class="polaroid-wrapper">
+            <div class="polaroid-tape" aria-hidden="true"></div>
+            <div id="hero-polaroid" class="polaroid-frame holo-card">
+              <div class="polaroid-photo-inner">
                 <img
                   id="hero-avatar"
                   src="assets/avatar.webp"
                   alt="Portrait of Devdutta Nath"
-                  width="240"
-                  height="300"
+                  width="280"
+                  height="280"
                   fetchpriority="high"
                   decoding="async"
                 >
-                <div class="hero-holo-caption" aria-hidden="true">
-                  <span class="hero-holo-tag">CSE • AI/ML</span>
-                  <span class="hero-holo-name">Devdutta Nath</span>
-                </div>
                 <div class="holo-foil" aria-hidden="true"></div>
                 <div class="holo-glare" aria-hidden="true"></div>
+              </div>
+              <div class="polaroid-caption">
+                <span class="polaroid-caption-name">Devdutta Nath</span>
+                <span class="polaroid-caption-sub">CSE (AI/ML)</span>
               </div>
             </div>
           </div>
@@ -152,7 +134,25 @@
           </div>
         </div>
 
-        <div class="resume-preview-frame">
+        <div class="resume-preview-frame" id="resume-paper">
+          <div class="paper-clip-holder" aria-hidden="true">
+            <svg class="paper-clip-svg" width="38" height="84" viewBox="0 0 36 80" fill="none">
+              <defs>
+                <linearGradient id="clip-metal" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#f8fafc" />
+                  <stop offset="25%" stop-color="#94a3b8" />
+                  <stop offset="50%" stop-color="#ffffff" />
+                  <stop offset="75%" stop-color="#64748b" />
+                  <stop offset="100%" stop-color="#cbd5e1" />
+                </linearGradient>
+                <filter id="clip-shadow" x="-30%" y="-15%" width="160%" height="140%">
+                  <feDropShadow dx="2" dy="5" stdDeviation="3" flood-color="rgba(0,0,0,0.55)" />
+                </filter>
+              </defs>
+              <path d="M 10 70 L 10 24 C 10 12, 26 12, 26 24 L 26 62 C 26 71, 14 71, 14 62 L 14 30 C 14 24, 22 24, 22 30 L 22 56"
+                    stroke="url(#clip-metal)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" filter="url(#clip-shadow)" />
+            </svg>
+          </div>
           <img
             class="resume-preview-img"
             src="assets/resume.png"
