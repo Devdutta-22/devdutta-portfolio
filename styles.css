@@ -71,6 +71,7 @@ html {
   -webkit-font-smoothing: antialiased;
   text-size-adjust: 100%;
   scrollbar-gutter: stable;
+  overflow-x: hidden;
 }
 
 body {
@@ -80,6 +81,8 @@ body {
   grid-template-rows: auto 1fr auto;
   background-color: transparent;
   position: relative;
+  overflow-x: hidden;
+  max-inline-size: 100vw;
 }
 
 /* ==========================================================================
@@ -2052,14 +2055,482 @@ dialog::backdrop {
   color: var(--text-muted);
 }
 
-@media (max-width: 560px) {
+/* ==========================================================================
+   Mobile & Tablet Responsiveness
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .container {
+    inline-size: min(100% - 1.5rem, 62rem);
+  }
+
+  .main-shell {
+    padding-block: clamp(1.75rem, 4vw, 3rem);
+  }
+
+  /* Hero & Polaroid */
+  .hero-identity {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+  }
+
+  .polaroid-wrapper {
+    margin-inline: auto;
+  }
+
+  .polaroid-frame {
+    inline-size: min(260px, 78vw);
+    padding: 10px 10px 44px 10px;
+    transform: rotate(-1.5deg);
+  }
+
+  .polaroid-caption-name {
+    font-size: 1.25rem;
+  }
+
+  .polaroid-caption-sub {
+    font-size: 1.05rem;
+  }
+
+  .hero-copy {
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  .hero-name {
+    font-size: clamp(2rem, 7vw, 2.75rem);
+  }
+
+  .shuffle-visual {
+    justify-content: center;
+  }
+
+  .hero-location {
+    font-size: 0.88rem;
+  }
+
+  /* About Me Notebook Paper */
+  .about-paper-wrapper {
+    margin-block: 1.75rem 1.5rem;
+  }
+
+  .about-paper-sheet {
+    padding: 1.8rem 1.1rem 1.8rem 2.6rem;
+    background-image:
+      linear-gradient(to right, transparent 32px, rgba(239, 68, 68, 0.4) 32px, rgba(239, 68, 68, 0.4) 34px, transparent 34px),
+      repeating-linear-gradient(transparent, transparent 31px, rgba(147, 197, 253, 0.45) 31px, rgba(147, 197, 253, 0.45) 32.5px);
+    background-position: 0 14px;
+    transform: rotate(-0.3deg);
+  }
+
+  .paper-heading {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .paper-handwriting {
+    font-size: 1.25rem;
+    line-height: 32.5px;
+  }
+
+  .paper-tape-top {
+    inline-size: 120px;
+    block-size: 26px;
+    inset-block-start: -12px;
+  }
+
+  /* Credentials Sticky Notes */
+  .credentials-block {
+    padding-block-start: 1.5rem;
+    gap: 1rem;
+  }
+
+  .credentials-list {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1.5rem 0.9rem;
+  }
+
+  .sticky-note {
+    min-block-size: 155px;
+    padding: 1.2rem 0.9rem 0.9rem;
+  }
+
+  .sticky-title {
+    font-size: 1.3rem;
+  }
+
+  .sticky-handle {
+    font-size: 1.1rem;
+  }
+
+  /* Projects Launcher */
+  .projects-launcher-wrap {
+    margin-block-start: 1.75rem;
+  }
+
+  .star-border-inner {
+    padding: 1.35rem 1.1rem;
+    gap: 0.85rem;
+    border-radius: 16px;
+  }
+
+  .launcher-top {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.85rem;
+  }
+
+  .launcher-cta {
+    width: 100%;
+    justify-content: center;
+    min-block-size: 46px;
+  }
+
+  .launcher-desc {
+    font-size: 0.94rem;
+  }
+
+  /* Resume Section */
+  .resume-section {
+    margin-block-start: 2rem;
+    padding-block-start: 1.5rem;
+    gap: 1.25rem;
+  }
+
+  .resume-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.85rem;
+  }
+
+  .resume-actions {
+    width: 100%;
+    display: flex;
+    gap: 0.65rem;
+  }
+
+  .resume-actions .btn-primary,
+  .resume-actions .btn-secondary {
+    flex: 1 1 0;
+    justify-content: center;
+    text-align: center;
+    min-block-size: 44px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.92rem;
+  }
+
+  .paper-clip-holder {
+    inset-block-start: -18px;
+    inset-inline-start: 12px;
+  }
+
+  .paper-clip-svg {
+    width: 28px;
+    height: 64px;
+  }
+
+  /* Laptop View on Mobile */
+  .laptop-desk-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    margin-block-end: 1rem;
+  }
+
+  .back-btn {
+    width: 100%;
+    justify-content: center;
+    min-block-size: 46px;
+    font-size: 1.15rem;
+  }
+
+  .laptop-desk-status {
+    text-align: center;
+    font-size: 0.76rem;
+  }
+
+  .laptop-case {
+    inline-size: 100%;
+    perspective: 1000px;
+  }
+
+  .laptop-bezel {
+    padding: 14px 6px 12px;
+    border-width: 2px;
+    border-radius: 12px 12px 3px 3px;
+  }
+
+  .laptop-screen {
+    min-block-size: 470px;
+  }
+
+  .retro-menubar {
+    padding: 4px 6px;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+  }
+
+  .menu-label {
+    display: none;
+  }
+
+  .sys-stat {
+    display: none;
+  }
+
+  .menubar-center {
+    width: 100%;
+    order: 3;
+    margin-top: 2px;
+  }
+
+  .retro-filter-bar {
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 2px;
+    gap: 0.25rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .retro-filter-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .retro-filter-bar .filter-pill {
+    white-space: nowrap;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    min-block-size: 26px;
+  }
+
+  .desktop-workspace {
+    padding: 0.85rem 0.5rem;
+    gap: 1rem 0.5rem;
+    min-block-size: 340px;
+  }
+
+  .desktop-folder-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .desktop-folder-item {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .desktop-folder-btn {
+    inline-size: 100%;
+    max-inline-size: 130px;
+    padding: 6px 4px;
+    min-height: 88px;
+  }
+
+  .retro-folder-svg {
+    width: 52px;
+    height: 42px;
+  }
+
+  .folder-title {
+    font-size: 0.8rem;
+  }
+
+  .desktop-side-icons {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 0.85rem;
+    margin-inline-start: 0;
+    padding-top: 0.5rem;
+    border-top: 1px dashed rgba(255, 255, 255, 0.22);
+  }
+
+  .desktop-shortcut {
+    inline-size: 76px;
+  }
+
+  .shortcut-icon {
+    font-size: 1.8rem;
+  }
+
+  .shortcut-label {
+    font-size: 0.72rem;
+  }
+
+  .retro-taskbar {
+    padding: 2px 4px;
+    gap: 0.3rem;
+  }
+
+  .taskbar-tab {
+    padding: 2px 6px;
+    font-size: 0.7rem;
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .tray-pill {
+    display: none;
+  }
+
+  .laptop-hinge {
+    margin-inline: 20px;
+    block-size: 6px;
+  }
+
+  .laptop-lower-deck {
+    block-size: 12px;
+    border-radius: 0 0 12px 12px;
+  }
+
+  .laptop-trackpad-notch {
+    inline-size: 54px;
+    block-size: 3px;
+  }
+
+  /* Project Modal Dialog */
+  #project-dialog {
+    inline-size: min(calc(100% - 1rem), 42rem);
+    max-block-size: 92dvb;
+  }
+
+  .retro-window-surface {
+    max-block-size: 92dvb;
+  }
+
+  .retro-window-titlebar {
+    padding: 3px 6px;
+  }
+
+  .retro-badge {
+    font-size: 0.6rem;
+  }
+
+  .retro-year {
+    display: none;
+  }
+
+  .win-min,
+  .win-max {
+    display: none;
+  }
+
+  .retro-win-btn {
+    inline-size: 22px;
+    block-size: 20px;
+  }
+
+  .retro-window-menubar {
+    font-size: 0.68rem;
+    gap: 8px;
+    padding: 2px 6px;
+  }
+
+  .retro-window-body {
+    padding: 0.85rem;
+    gap: 0.85rem;
+  }
+
+  .retro-doc-title {
+    font-size: 1.35rem;
+  }
+
+  .retro-doc-tagline {
+    font-size: 0.88rem;
+  }
+
+  .retro-doc-desc {
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+
+  .retro-highlights {
+    font-size: 0.85rem;
+    padding-inline-start: 1rem;
+  }
+
+  .retro-window-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    padding: 6px 8px;
+  }
+
+  .retro-window-footer .retro-btn {
+    width: 100%;
+    min-block-size: 42px;
+    justify-content: center;
+    font-size: 0.86rem;
+    font-weight: 700;
+  }
+
   .btn-ghost {
     margin-inline-start: 0;
+    width: 100%;
+    text-align: center;
+    min-block-size: 38px;
+    justify-content: center;
   }
-  .dialog-footer {
-    justify-content: stretch;
+
+  /* Footer */
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.35rem;
+    justify-content: center;
   }
-  .dialog-footer > * {
-    flex: 1 1 auto;
+
+  .footer-copy,
+  .footer-hint {
+    text-align: center;
+  }
+}
+
+/* Extra small mobile adjustments (<400px) */
+@media (max-width: 400px) {
+  .container {
+    inline-size: calc(100% - 1rem);
+  }
+
+  .polaroid-frame {
+    inline-size: min(230px, 86vw);
+    padding: 8px 8px 38px 8px;
+  }
+
+  .about-paper-sheet {
+    padding: 1.5rem 0.75rem 1.5rem 2.2rem;
+  }
+
+  .credentials-list {
+    grid-template-columns: 1fr;
+  }
+
+  .sticky-note {
+    max-inline-size: 260px;
+    margin-inline: auto;
+  }
+
+  .desktop-folder-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  .desktop-folder-btn {
+    padding: 4px 2px;
+    min-height: 80px;
+  }
+
+  .retro-folder-svg {
+    width: 44px;
+    height: 36px;
   }
 }
