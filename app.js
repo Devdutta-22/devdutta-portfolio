@@ -227,7 +227,7 @@
     document.getElementById("nav-project-count").textContent = String(projects.length);
     document.getElementById("launcher-count").textContent = String(projects.length);
 
-    // Credentials list as Collectible HoloCards
+    // Credentials list as Taped Sticky Notes
     const credList = document.getElementById("credentials-list");
     credList.innerHTML = "";
     for (const cred of credentials) {
@@ -235,62 +235,49 @@
       li.className = "cred-card-item";
 
       const a = document.createElement("a");
-      a.className = "holo-card cred-holo-card";
+      a.className = "sticky-note cred-sticky-note";
       a.href = cred.url;
+      a.dataset.noteId = cred.id;
       if (cred.external) {
         a.target = "_blank";
         a.rel = "noopener noreferrer";
       }
       a.setAttribute("aria-label", `${cred.label}: ${cred.handle}`);
 
-      const iconMeta = CREDENTIAL_ICONS[cred.id] || CREDENTIAL_ICONS.codolio;
-      a.style.setProperty("--cred-color", iconMeta.color);
-
-      const face = document.createElement("span");
-      face.className = "holo-card-face cred-holo-face";
+      const tape = document.createElement("span");
+      tape.className = "sticky-tape";
+      tape.setAttribute("aria-hidden", "true");
 
       const topRow = document.createElement("span");
-      topRow.className = "cred-card-top";
-      const codeSpan = document.createElement("span");
-      codeSpan.className = "cred-card-code";
-      codeSpan.textContent = iconMeta.code;
-      const arrowSpan = document.createElement("span");
-      arrowSpan.className = "cred-card-arrow";
-      arrowSpan.setAttribute("aria-hidden", "true");
-      arrowSpan.textContent = "↗";
-      topRow.append(codeSpan, arrowSpan);
+      topRow.className = "sticky-top-row";
 
-      const emblemWrap = document.createElement("span");
-      emblemWrap.className = "cred-card-emblem";
-      const disc = document.createElement("span");
-      disc.className = "cred-emblem-disc";
-      disc.innerHTML = iconMeta.svg;
-      emblemWrap.appendChild(disc);
+      const iconMeta = CREDENTIAL_ICONS[cred.id] || CREDENTIAL_ICONS.codolio;
+      const emblem = document.createElement("span");
+      emblem.className = "sticky-emblem";
+      emblem.innerHTML = iconMeta.svg;
 
-      const footerWrap = document.createElement("span");
-      footerWrap.className = "cred-card-footer";
-      const nameSpan = document.createElement("span");
-      nameSpan.className = "credential-name";
-      nameSpan.textContent = cred.label;
-      const handleSpan = document.createElement("span");
-      handleSpan.className = "credential-handle";
-      handleSpan.textContent = cred.handle;
-      footerWrap.append(nameSpan, handleSpan);
+      const arrow = document.createElement("span");
+      arrow.className = "sticky-arrow";
+      arrow.setAttribute("aria-hidden", "true");
+      arrow.textContent = "↗";
 
-      const foil = document.createElement("span");
-      foil.className = "holo-foil";
-      foil.setAttribute("aria-hidden", "true");
+      topRow.append(emblem, arrow);
 
-      const glareEl = document.createElement("span");
-      glareEl.className = "holo-glare";
-      glareEl.setAttribute("aria-hidden", "true");
+      const content = document.createElement("span");
+      content.className = "sticky-content";
 
-      face.append(topRow, emblemWrap, footerWrap, foil, glareEl);
-      a.appendChild(face);
+      const title = document.createElement("span");
+      title.className = "sticky-title";
+      title.textContent = cred.label;
+
+      const handle = document.createElement("span");
+      handle.className = "sticky-handle";
+      handle.textContent = cred.handle;
+
+      content.append(title, handle);
+      a.append(tape, topRow, content);
       li.appendChild(a);
       credList.appendChild(li);
-
-      attachHoloCardInteraction(a, { tiltMax: 12, glare: 0.45 });
     }
 
     // Launcher preview chips
