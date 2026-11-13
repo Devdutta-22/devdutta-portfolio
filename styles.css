@@ -1315,7 +1315,7 @@ svg {
 .laptop-screen {
   position: relative;
   border-radius: 4px;
-  overflow: clip;
+  overflow: hidden;
   background: #000000;
   min-block-size: clamp(480px, 62vw, 600px);
   box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.85);
@@ -2233,168 +2233,369 @@ dialog::backdrop {
   }
 
   /* Laptop View on Mobile */
+  #projects-view {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+
   .laptop-desk-controls {
+    display: flex;
     flex-direction: column;
     align-items: stretch;
     gap: 0.65rem;
     margin-block-end: 1rem;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
   }
 
   .back-btn {
+    transform: none !important;
     width: 100%;
+    max-width: 100%;
     justify-content: center;
     min-block-size: 46px;
     font-size: 1.15rem;
+    box-sizing: border-box;
   }
 
   .laptop-desk-status {
+    white-space: normal;
     text-align: center;
-    font-size: 0.76rem;
+    font-size: 0.74rem;
+    word-break: break-word;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .laptop-case {
-    inline-size: 100%;
-    perspective: 1000px;
+    inline-size: 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    perspective: none !important;
+    transform: none !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .laptop-lid {
+    width: 100% !important;
+    max-width: 100% !important;
+    transform: none !important;
+    perspective: none !important;
+    opacity: 1 !important;
+    box-sizing: border-box !important;
+  }
+
+  .laptop-case.laptop-opened .laptop-lid {
+    transform: none !important;
+    perspective: none !important;
+    opacity: 1 !important;
+  }
+
+  .laptop-case.laptop-opening .laptop-lid {
+    animation: laptop-mobile-open 0.5s ease-out forwards !important;
+  }
+
+  .laptop-case.laptop-closing .laptop-lid {
+    animation: laptop-mobile-close 0.35s ease-in forwards !important;
+  }
+
+  @keyframes laptop-mobile-open {
+    0% {
+      opacity: 0.15;
+      transform: translateY(18px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes laptop-mobile-close {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(18px);
+    }
   }
 
   .laptop-bezel {
-    padding: 14px 6px 12px;
-    border-width: 2px;
-    border-radius: 12px 12px 3px 3px;
+    padding: 12px 6px 10px !important;
+    border-width: 2px !important;
+    border-radius: 12px 12px 3px 3px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
   }
 
   .laptop-screen {
-    min-block-size: 470px;
+    min-block-size: auto !important;
+    block-size: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    border-radius: 4px !important;
+  }
+
+  .retro-desktop {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
   }
 
   .retro-menubar {
-    padding: 4px 6px;
-    gap: 0.4rem;
-    font-size: 0.72rem;
+    padding: 4px 6px !important;
+    gap: 0.35rem !important;
+    font-size: 0.72rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
   }
 
   .menu-label {
-    display: none;
+    display: none !important;
   }
 
   .sys-stat {
-    display: none;
+    display: none !important;
+  }
+
+  .menubar-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  .menubar-right {
+    display: flex !important;
+    align-items: center !important;
+    flex-shrink: 0 !important;
+    margin-inline-start: auto !important;
   }
 
   .menubar-center {
-    width: 100%;
-    order: 3;
-    margin-top: 2px;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    order: 3 !important;
+    margin-top: 2px !important;
+    box-sizing: border-box !important;
   }
 
   .retro-filter-bar {
-    width: 100%;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    padding-bottom: 2px;
-    gap: 0.25rem;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+    display: flex !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    flex-wrap: nowrap !important;
+    padding-bottom: 2px !important;
+    gap: 0.25rem !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    box-sizing: border-box !important;
   }
 
   .retro-filter-bar::-webkit-scrollbar {
-    display: none;
+    display: none !important;
   }
 
   .retro-filter-bar .filter-pill {
-    white-space: nowrap;
-    font-size: 0.7rem;
-    padding: 2px 8px;
-    min-block-size: 26px;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    font-size: 0.7rem !important;
+    padding: 2px 7px !important;
+    min-block-size: 25px !important;
   }
 
   .desktop-workspace {
-    padding: 0.85rem 0.5rem;
-    gap: 1rem 0.5rem;
-    min-block-size: 340px;
+    padding: 0.75rem 0.5rem !important;
+    gap: 0.75rem !important;
+    min-block-size: 260px !important;
+    max-block-size: 58vh !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
   }
 
   .desktop-folder-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
-    width: 100%;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.6rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
   }
 
   .desktop-folder-item {
-    width: 100%;
-    justify-content: center;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
   }
 
   .desktop-folder-btn {
-    inline-size: 100%;
-    max-inline-size: 130px;
-    padding: 6px 4px;
-    min-height: 88px;
+    width: 100% !important;
+    max-width: 120px !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    padding: 6px 3px !important;
+    min-height: 80px !important;
   }
 
   .retro-folder-svg {
-    width: 52px;
-    height: 42px;
+    width: 48px !important;
+    height: 40px !important;
   }
 
   .folder-title {
-    font-size: 0.8rem;
+    font-size: 0.78rem !important;
+    line-height: 1.2 !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    max-width: 100% !important;
   }
 
   .desktop-side-icons {
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-around;
-    margin-top: 0.85rem;
-    margin-inline-start: 0;
-    padding-top: 0.5rem;
-    border-top: 1px dashed rgba(255, 255, 255, 0.22);
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    margin-top: 0.5rem !important;
+    margin-inline-start: 0 !important;
+    padding-top: 0.5rem !important;
+    border-top: 1px dashed rgba(255, 255, 255, 0.22) !important;
   }
 
   .desktop-shortcut {
-    inline-size: 76px;
+    inline-size: 72px !important;
+    max-width: 48% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
   }
 
   .shortcut-icon {
-    font-size: 1.8rem;
+    font-size: 1.6rem !important;
   }
 
   .shortcut-label {
-    font-size: 0.72rem;
+    font-size: 0.7rem !important;
   }
 
   .retro-taskbar {
-    padding: 2px 4px;
-    gap: 0.3rem;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    padding: 2px 4px !important;
+    gap: 0.25rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+
+  .retro-start-btn {
+    flex-shrink: 0 !important;
+    padding: 2px 6px !important;
+    font-size: 0.74rem !important;
+  }
+
+  .taskbar-open-windows {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
   }
 
   .taskbar-tab {
-    padding: 2px 6px;
-    font-size: 0.7rem;
-    max-width: 120px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 2px 5px !important;
+    font-size: 0.68rem !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+  }
+
+  .taskbar-tab .tab-text {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .taskbar-tray {
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
   }
 
   .tray-pill {
-    display: none;
+    display: none !important;
+  }
+
+  .tray-clock {
+    padding: 1px 4px !important;
+    font-size: 0.68rem !important;
+  }
+
+  .laptop-chassis-base {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
   }
 
   .laptop-hinge {
-    margin-inline: 20px;
-    block-size: 6px;
+    margin-inline: clamp(10px, 5vw, 24px) !important;
+    block-size: 6px !important;
   }
 
   .laptop-lower-deck {
-    block-size: 12px;
-    border-radius: 0 0 12px 12px;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    block-size: 12px !important;
+    border-radius: 0 0 12px 12px !important;
   }
 
   .laptop-trackpad-notch {
-    inline-size: 54px;
-    block-size: 3px;
+    inline-size: 50px !important;
+    block-size: 3px !important;
   }
 
   /* Project Modal Dialog */
@@ -2498,7 +2699,7 @@ dialog::backdrop {
 /* Extra small mobile adjustments (<400px) */
 @media (max-width: 400px) {
   .container {
-    inline-size: calc(100% - 1rem);
+    inline-size: calc(100% - 0.75rem);
   }
 
   .polaroid-frame {
@@ -2519,18 +2720,36 @@ dialog::backdrop {
     margin-inline: auto;
   }
 
+  #projects-view {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .laptop-bezel {
+    padding: 10px 4px 8px !important;
+  }
+
+  .desktop-workspace {
+    padding: 0.5rem 0.35rem !important;
+    gap: 0.5rem !important;
+  }
+
   .desktop-folder-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.4rem !important;
   }
 
   .desktop-folder-btn {
-    padding: 4px 2px;
-    min-height: 80px;
+    padding: 4px 2px !important;
+    min-height: 74px !important;
   }
 
   .retro-folder-svg {
-    width: 44px;
-    height: 36px;
+    width: 42px !important;
+    height: 34px !important;
+  }
+
+  .folder-title {
+    font-size: 0.72rem !important;
   }
 }
